@@ -172,7 +172,7 @@
           <!-- NAV -->
           <ul class="main-nav nav navbar-nav">
             <li class="active">
-              <a href="#">Home</a>
+              <a href="{% url 'IND' %}">Home</a>
             </li>
             <li>
               <a href="#">Hot Ventas</a>
@@ -207,14 +207,38 @@
       <div class="container">
         <!-- row -->
         <div class="row">
-          <div class="col-md-12">
-            <h3 class="breadcrumb-header">Regular Page</h3>
-            <ul class="breadcrumb-tree">
-              <li>
-                <a href="#">Home</a>
-              </li>
-              <li class="active">Blank</li>
-            </ul>
+          <div class="col-md-4" style="border:solid 2px rgb(1, 0, 0);padding-top: 15px;">                        
+            <form action="" method="post">
+              <table>
+                <tr>
+                  <td colspan="2"><h3 class="breadcrumb-header">Login Acceso</h3></td>
+                </tr>
+                <tr>
+                  <td style="padding: 15px;">
+                    <label for="">Usuario</label>
+                  </td>
+                  <td style="padding: 15px;">                    
+                    <input type="text" name="txtUsuario" id=""> 
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 15px;">
+                    <label for="">Contraseña</label>
+                  </td>
+                  <td style="padding: 15px;">
+                    <input type="password" name="txtPassword" id="">
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 15px;">
+                    <input type="submit" value="Validar">
+                  </td>
+                </tr>
+                
+              </table>
+              
+              
+            </form>
           </div>
         </div>
         <!-- /row -->
@@ -250,13 +274,13 @@
                 <p>Somos una empresa que esta dedicada a la importacion de articulos electronicos en todo el pais con sucursales en diferentes ciudades desde arica hasta punta arenas </p>
                 <ul class="footer-links">
                   <li>
-                    <a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a>
+                    <a href="#"><i class="fa fa-map-marker"></i>Agustinas 3254 Of. 25</a>
                   </li>
                   <li>
-                    <a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a>
+                    <a href="#"><i class="fa fa-phone"></i>+569-3622326</a>
                   </li>
                   <li>
-                    <a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a>
+                    <a href="#"><i class="fa fa-envelope-o"></i>contacto@egesven.cl</a>
                   </li>
                 </ul>
               </div>
@@ -264,10 +288,10 @@
 
             <div class="col-md-3 col-xs-6">
               <div class="footer">
-                <h3 class="footer-title">Categories</h3>
+                <h3 class="footer-title">Categorias</h3>
                 <ul class="footer-links">
                   <li>
-                    <a href="#">Hot deals</a>
+                    <a href="#">Hot Ventas</a>
                   </li>
                   <li>
                     <a href="#">Laptops</a>
@@ -276,10 +300,10 @@
                     <a href="#">Smartphones</a>
                   </li>
                   <li>
-                    <a href="#">Cameras</a>
+                    <a href="#">Camaras</a>
                   </li>
                   <li>
-                    <a href="#">Accessories</a>
+                    <a href="#">Accessorios</a>
                   </li>
                 </ul>
               </div>
@@ -289,22 +313,19 @@
 
             <div class="col-md-3 col-xs-6">
               <div class="footer">
-                <h3 class="footer-title">Information</h3>
+                <h3 class="footer-title">Informacion</h3>
                 <ul class="footer-links">
                   <li>
-                    <a href="#">About Us</a>
+                    <a href="#">Acerca de Nosotros</a>
                   </li>
                   <li>
-                    <a href="#">Contact Us</a>
+                    <a href="#">Contactenos</a>
                   </li>
                   <li>
-                    <a href="#">Privacy Policy</a>
+                    <a href="#">Politica de Provacidad</a>
                   </li>
                   <li>
-                    <a href="#">Orders and Returns</a>
-                  </li>
-                  <li>
-                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Terminos</a>
                   </li>
                 </ul>
               </div>
@@ -312,22 +333,22 @@
 
             <div class="col-md-3 col-xs-6">
               <div class="footer">
-                <h3 class="footer-title">Service</h3>
+                <h3 class="footer-title">Servicios</h3>
                 <ul class="footer-links">
                   <li>
-                    <a href="#">My Account</a>
+                    <a href="#">Mi Cuenta</a>
                   </li>
                   <li>
-                    <a href="#">View Cart</a>
+                    <a href="#">Ver Carro</a>
                   </li>
                   <li>
-                    <a href="#">Wishlist</a>
+                    <a href="#">Comentarios</a>
                   </li>
                   <li>
-                    <a href="#">Track My Order</a>
+                    <a href="#">Mis Ordenes</a>
                   </li>
                   <li>
-                    <a href="#">Help</a>
+                    <a href="#">Ayuda</a>
                   </li>
                 </ul>
               </div>
@@ -366,11 +387,11 @@
                 </li>
               </ul>
               <span class="copyright">
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                
                 Copyright &copy;<script>
                                   document.write(new Date().getFullYear())
-                                </script>All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                </script> Todos los derechos reservados <i class="fa fa-heart-o" aria-hidden="true"></i> por <a href="https://colorlib.com" target="_blank">Mandril</a>
+                
               </span>
             </div>
           </div>
