@@ -1,0 +1,10 @@
+asgiref==3.8.1
+cffi==1.17.1
+cryptography==44.0.0
+Django==5.1.4
+oracledb==2.5.0
+pycparser==2.22
+setuptools==75.6.0
+sqlparse==0.5.2
+tzdata==2024.2
+wheel==0.45.1
