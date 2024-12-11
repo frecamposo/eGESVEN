@@ -101,7 +101,7 @@ class Productos(models.Model):
     descripcion = models.CharField(max_length=100)
     precio = models.IntegerField()
     stock = models.IntegerField()
-    foto = models.BinaryField()
+    foto = models.ImageField(upload_to='fotos',default='fotos/no-disponible.jpg')
     valoracion = models.IntegerField()
     idcategoria = models.ForeignKey(Categoria, models.DO_NOTHING, db_column='idcategoria')
 
@@ -126,7 +126,7 @@ class Repartidor(models.Model):
 
 
 class UserPerfil(models.Model):
-    iduser_perfil = models.FloatField(primary_key=True)
+    iduser_perfil = models.AutoField(primary_key=True)
     fecha = models.DateField()
     rut = models.ForeignKey('Usuarios', models.DO_NOTHING, db_column='rut')
     idperfil = models.ForeignKey(Perfil, models.DO_NOTHING, db_column='idperfil')
@@ -137,7 +137,7 @@ class UserPerfil(models.Model):
 
 
 class Usuarios(models.Model):
-    rut = models.AutoField(primary_key=True)
+    rut = models.IntegerField(primary_key=True)
     dv = models.CharField(max_length=1)
     nombre = models.CharField(max_length=45)
     apellido_pat = models.CharField(max_length=50)

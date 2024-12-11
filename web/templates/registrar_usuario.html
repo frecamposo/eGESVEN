@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contenido1 %}
+
+  <!-- Contenido Login -->
+  <div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+      <!-- row -->
+      <div class="row">
+        <div class="col-md-8" style="border:solid 2px rgb(1, 0, 0);padding-top: 15px;">
+          <form action="{% url 'REG_USU' %}" method="post">
+          {% csrf_token %}  
+            <table>
+              <tr>
+                <td colspan="2">
+                  <h3 class="breadcrumb-header">Creacion de Cuenta de Usuario</h3>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 15px;">
+                  <label for="">Rut</label>
+                </td>
+                <td style="padding: 15px;">
+                  <input type="text" name="rut" id="rut" placeholder="ingreser rut" maxlength="8" required/> - <input required type="text" name="dv" id="dv" maxlength="1" placeholder="ingreser Digito Verificador" />
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 15px;">
+                  <label for="">Nombre</label>
+                </td>
+                <td style="padding: 15px;">
+                  <input type="text" name="nombre" id="nombre" placeholder="ingrese nombre" required/>
+                </td>
+              </tr>
+               <tr>
+                <td style="padding: 15px;">
+                  <label for="">Apellidos</label>
+                </td>
+                <td style="padding: 15px;">
+                  <input type="text" name="appaterno" id="appaterno" placeholder="apellido paterno" required /> <input required type="text" name="apmaterno" id="apmaterno" placeholder="apellido materno" />
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 15px;">
+                  <label for="">Correo</label>
+                </td>
+                <td style="padding: 15px;">
+                  <input type="email" name="correo" id="correo" placeholder="ingrese correo electronico" required/>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 15px;">
+                  <label for="">Telefono</label>
+                </td>
+                <td style="padding: 15px;">
+                  <input type="number" name="telefono" id="telefono" placeholder="Ingrese Telefono" required />
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 15px;">
+                  <label for="">Direccion</label>
+                </td>
+                <td style="padding: 15px;">
+                  <input type="text" name="direccion" id="direccion" placeholder="ingrese su direccion" required/>
+                </td>
+              </tr>
+               <td style="padding: 15px;">
+                  <label>Comuna</label>
+                </td>
+                <td style="padding: 15px;">
+                  <select name="comuna" id="comuna">
+                    {% for c in comunas %}
+                        <option value="{{ c.idcomuna }}">{{ c.descripcion }}</option>
+                    {% endfor %}
+                    
+                  </select>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td style="padding: 15px;">
+                  <label for="">Password</label>
+                </td>
+                <td style="padding: 15px;">
+                  <input type="password" name="pass1" id="pass1" placeholder="ingrese contraseña" required />
+                </td>
+              </tr>
+
+              <tr>
+              <td style="padding: 15px;">
+                  <label for="">Repita la Password</label>
+                </td>
+                <td style="padding: 15px;">
+                  <input type="password" name="pass2" id="pass2" placeholder="repita la contraseña" required/>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td style="padding: 15px;">
+                  <input type="submit" value="Registrar Usuario" />
+                </td>
+                <td>
+                  <a href="{% url 'LOGIN' %}">Login Aqui</a>
+                   
+                </td>
+                
+              </tr>
+            </table>
+          </form>
+          {{mensaje}}
+        </div>
+      </div>
+      <!-- /row -->
+    </div>
+   
+    <!-- /container -->
+  </div>
+  <!-- /Contenido Login -->
+
+{% endblock contenido1 %}

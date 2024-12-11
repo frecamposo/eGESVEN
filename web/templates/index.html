@@ -48,7 +48,26 @@
 				<ul class="header-links pull-right">
 					<li><a href="#"><i class="fa fa-dollar"></i><label id="dolar"></label> Valor Dolar</a></li>
 					<li><a href="{% url 'LOGIN' %}"><i class="fa fa-user-o"></i> Mi Cuenta</a></li>
-					<li><a href="{% url 'LOGIN' %}"><i class="fa fa-user-o"></i> Acceso Empleado</a></li>
+					<li><a href="{% url 'LOGIN_A' %}"><i class="fa fa-user-o"></i> Acceso Empleado</a></li>
+					{% if user.is_authenticated %}
+					<li>
+						<a class="nav-link" >Bienvenido:  {{user.username}} {{user.first_name}} </a>
+					</li>
+					{% if perms.web.view_producto %}
+					<li>
+						<a class="nav-link" href="{% url 'ADM' %}">Admininstrador</a>
+					</li>
+
+					{% endif %}
+					
+					<li>
+						<a class="nav-link" href="{% url 'CS' %}">Cerrar Sesion</a>
+					</li>
+					{% else %}
+					<li>
+						<a class="nav-link" href="{% url 'LOGIN' %}">Login</a>
+					</li>
+					{% endif %}
 				</ul>
 			</div>
 		</div>

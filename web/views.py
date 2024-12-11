@@ -3,8 +3,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate,login as login_aut,logout
 from django.contrib.auth.decorators import login_required,permission_required
 from .models import *
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 import requests
+from django.contrib.auth.hashers import make_password,check_password
+from datetime import datetime
+
 
 def index(request):
     return render(request,'index.html')
@@ -16,24 +19,35 @@ def login(request):
     if request.method == 'POST':
         usuario= request.POST.get('txtUsuario')
         correo= request.POST.get('txtCorreo')        
+        pass1=request.POST.get('txtPassword')
         try:
-            sql="select u.rut,u.nombre,u.apellido_pat,u.correo,p.idperfil from usuarios u inner join user_perfil up on up.rut = u.rut inner join perfil p on up.idperfil = p.idperfil where u.nombre='"+usuario+"' and u.correo='"+correo+"'  "
+            sql="select u.rut,u.nombre,u.apellido_pat,u.correo,p.idperfil,u.contrasena from usuarios u inner join user_perfil up on up.rut = u.rut inner join perfil p on up.idperfil = p.idperfil where u.nombre='"+usuario+"' and u.correo='"+correo+"' "
             # usu=Usuarios.objects.get(nombre=usuario,correo=correo)
             print(sql)
             usuarios= Usuarios.objects.raw(sql)
             x=0
+            p=''
             for u in usuarios:
-                print(u.rut)
                 x=u.idperfil
+                p=u.contrasena
+            if check_password(pass1, p):
+                print("La contraseña es válida")
+            else:
+                print("La contraseña no es válida")
+                x=0
             if x==0:
                 contexto["mensaje"]="No Existe"
             else:    
                 contexto["mensaje"]=""
-                if int(x)==1:
+                if x=='U':
                     datos=Productos.objects.all()
                     contexto["data"]=datos
                     print(datos)
-                    return render(request, "admin.html",contexto)
+                    
+                    user = authenticate(request,username=usuario,password=pass1)            
+                    request.session["perfil"]='Usuario'
+                    login_aut(request,user)
+                    return render(request, "index.html",contexto)
         except  BaseException as error:
             contexto["mensaje"]=error
     return render(request,'login.html',contexto)
@@ -54,13 +68,16 @@ def grabar_producto(request):
         print("aqui")
         try:
             prod=Productos()
-            prod.idproducto=request.POST.get('codigo')
+            # prod.idproducto=request.POST.get('codigo')
             prod.nombre=request.POST.get('nombre')
             prod.descripcion=request.POST.get('descripcion')
             prod.precio=request.POST.get('precio')
             cat= Categoria.objects.get(idcategoria=request.POST.get('catego'))
             prod.idcategoria=cat
             prod.stock=request.POST.get('stock')
+            ima  = request.FILES.get("foto")
+            if ima is not None:
+                prod.foto= ima
             prod.valoracion=0
             try:
                 prod.save()
@@ -84,3 +101,77 @@ def eliminar_producto(request,id):
     except BaseException as error:
         contexto["mensaje"]=error
     return render(request,'admin.html',contexto)
+
+def registrar_usuario(request):
+    contexto={}
+    comuna=Comuna.objects.all()
+    contexto["comunas"]=comuna
+    per=Perfil.objects.get(descripcion='Usuario')
+    if request.method == 'POST':
+        try:
+            reg=Usuarios()
+            reg.rut=request.POST.get('rut')
+            reg.dv=request.POST.get('dv')
+            reg.nombre=request.POST.get('nombre')
+            reg.apellido_pat=request.POST.get('appaterno')
+            reg.apellido_mat=request.POST.get('apmaterno')
+            reg.correo=request.POST.get('correo')
+            reg.direccion=request.POST.get('direccion')
+            reg.telefono=request.POST.get('telefono')
+            hashed_password = make_password(request.POST.get('pass1'))
+            reg.contrasena=hashed_password
+            comuna = Comuna.objects.get(idcomuna=request.POST.get('comuna'))
+            reg.idcomuna=comuna
+            try:
+                reg.save()
+                contexto["mensaje"]="Grabo Usuario"
+                up=UserPerfil()
+                up.fecha=datetime.now()
+                up.rut=reg
+                per=Perfil.objects.get(idperfil='U')
+                up.idperfil=per
+                up.save()    
+                try:
+                    us= User()
+                    us.username=request.POST.get('nombre')
+                    us.first_name=request.POST.get('appaterno')
+                    us.last_name=request.POST.get('apmaterno')
+                    us.email= request.POST.get('correo')
+                    us.set_password(request.POST.get('pass1'))
+                    us.save()
+                    
+                    grupo = Group.objects.get(name='usuarios')
+                    us.groups.add(grupo)
+                    contexto["mensaje"]="usuario Grabado"
+                except:
+                    contexto["mensaje"]="problemas al grabar el usuario, revise sus datos"        
+            except BaseException as error:
+                contexto["mensaje"]=error
+        except BaseException as error:
+            contexto["mensaje"]=error                       
+    return render(request,'registrar_usuario.html',contexto)
+
+@login_required(login_url='/login/')
+def cerrar_sesion(request):
+    logout(request)
+    return render(request, 'index.html')
+
+def login_admin(request):
+    contexto={}
+    if request.method == 'POST':
+        usuario = request.POST.get('usuario')
+        password = request.POST.get('password')
+        user = authenticate(request,username=usuario,password=password)
+        print("usuario:",usuario)
+        print("pass",password)
+        if user is not None:
+            datos=Productos.objects.all()
+            contexto["data"]=datos
+            categorias=Categoria.objects.all()
+            contexto["categorias"]=categorias
+            request.session["perfil"]='Administrador'
+            login_aut(request,user)
+            return render(request,'admin.html',contexto)
+        else:
+            contexto["mensaje"]="usuario o Contraseña Incorrecta"
+    return render(request, 'login_admin.html')
