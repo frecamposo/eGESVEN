@@ -1,11 +1,6 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.auth import get_user_model
+from django.conf import settings
 
 
 class Categoria(models.Model):
@@ -16,20 +11,16 @@ class Categoria(models.Model):
         managed = False
         db_table = 'categoria'
 
-    def __str__(self):
-        return self.descripcion
 
 class Comuna(models.Model):
-    idcomuna = models.SmallAutoField(primary_key=True)
+    idcomuna = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=50)
 
     class Meta:
         managed = False
         db_table = 'comuna'
 
-    def __str__(self):
-        return self.descripcion
-    
+
 class DetalleVenta(models.Model):
     idproducto = models.OneToOneField('Productos', models.DO_NOTHING, db_column='idproducto', primary_key=True)  # The composite primary key (idproducto, idventa) found, that is not supported. The first column is selected.
     idventa = models.ForeignKey('Venta', models.DO_NOTHING, db_column='idventa')
@@ -41,6 +32,7 @@ class DetalleVenta(models.Model):
         managed = False
         db_table = 'detalle_venta'
         unique_together = (('idproducto', 'idventa'),)
+
 
 class Envios(models.Model):
     idenvio = models.AutoField(primary_key=True)
@@ -67,8 +59,8 @@ class EstadoEnvio(models.Model):
 
 
 class Galeria(models.Model):
-    idfoto = models.AutoField(primary_key=True)  # The composite primary key (idfoto, idproducto) found, that is not supported. The first column is selected.
-    foto = models.TextField()
+    idfoto = models.IntegerField(primary_key=True)  # The composite primary key (idfoto, idproducto) found, that is not supported. The first column is selected.
+    imagen = models.ImageField(upload_to='media/fotos',default='fotos/no-disponible.jpg')
     idproducto = models.ForeignKey('Productos', models.DO_NOTHING, db_column='idproducto')
 
     class Meta:
@@ -101,8 +93,8 @@ class Productos(models.Model):
     descripcion = models.CharField(max_length=100)
     precio = models.IntegerField()
     stock = models.IntegerField()
-    foto = models.BinaryField()
     valoracion = models.IntegerField()
+    imagen = models.ImageField(upload_to='media/fotos',default='fotos/no-disponible.jpg')
     idcategoria = models.ForeignKey(Categoria, models.DO_NOTHING, db_column='idcategoria')
 
     class Meta:
@@ -126,18 +118,19 @@ class Repartidor(models.Model):
 
 
 class UserPerfil(models.Model):
-    iduser_perfil = models.FloatField(primary_key=True)
-    fecha = models.DateField()
+    idUserPerfil= models.AutoField(primary_key=True)
+    fecha = models.DateField()  # The composite primary key (fecha, rut, idperfil) found, that is not supported. The first column is selected.
     rut = models.ForeignKey('Usuarios', models.DO_NOTHING, db_column='rut')
     idperfil = models.ForeignKey(Perfil, models.DO_NOTHING, db_column='idperfil')
 
     class Meta:
         managed = False
         db_table = 'user_perfil'
+        unique_together = (('fecha', 'rut', 'idperfil'),)
 
 
 class Usuarios(models.Model):
-    rut = models.AutoField(primary_key=True)
+    rut = models.IntegerField(primary_key=True)
     dv = models.CharField(max_length=1)
     nombre = models.CharField(max_length=45)
     apellido_pat = models.CharField(max_length=50)
@@ -145,7 +138,7 @@ class Usuarios(models.Model):
     correo = models.CharField(max_length=60)
     telefono = models.IntegerField()
     direccion = models.CharField(max_length=120)
-    contrasena = models.CharField(max_length=120)
+    contrasena=models.CharField(max_length=120)
     idcomuna = models.ForeignKey(Comuna, models.DO_NOTHING, db_column='idcomuna')
 
     class Meta:
