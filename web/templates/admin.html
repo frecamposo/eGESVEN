@@ -1,0 +1,269 @@
+
+{% extends "base_admin.html" %}
+{% load static %}
+{% block contenido1 %}
+  <!-- Contenido Login -->
+  <div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+      <!-- row -->
+      <div class="row">
+        <div class="col-md-4" >
+          <h2>Menu Administracion</h2>
+        </div>
+      </div>
+      <!-- /row -->
+    </div>
+   
+    <!-- /container -->
+  </div>
+  <!-- /Contenido Login -->
+{% endblock contenido1 %}
+{% block contenido2 %}
+
+ <div id="breadcrumb" class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          
+          <table class="table table-hover">
+            <tr>
+              <td>Id Prod</td>
+              <td>Nombre</td>
+              <td>Descripcion</td>
+              <td>Precio</td>
+              <td>Stock</td>
+              <td>Valoracion</td>
+              <td>Categoria</td>
+              <td>Opciones</td>
+            </tr>
+            {% for X in data %}
+            <tr>
+              <td>{{X.idproducto}}</td>
+              <td>{{X.nombre}}</td>
+              <td>{{X.descripcion}}</td>
+              <td>{{X.precio}}</td>
+              <td>{{X.stock}}</td>
+              <td>{{X.valoracion}}</td>
+              <td>{{X.idcategoria.descripcion}}</td>
+              <td>
+                <button type="button" class="btn btn-danger"  data-bs-toggle="modal" onclick="eliminar({{X.idproducto}},'{{X.nombre}}')">Eliminar</button>
+                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#modificarProducto">Modificar</button>                          
+                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#nuevoProducto">Cargar Imagenes</button>                          
+                <button type="button" class="btn btn-info"  data-bs-toggle="modal" data-bs-target="#nuevoProducto">Ver</button> 
+              </td>
+
+            </tr>
+            {% endfor %}
+          </table>
+
+
+        </div>
+        <div class="col-md-12" style="padding-top: 15px;">
+          <button type="button" class="btn btn-primary" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoProducto">Agregar Producto</button>         
+        </div> 
+                             
+          <div class="alert alert-warning alert-dismissible" role="alert" style="margin-top:15px;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+             {{mensaje}}
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Modal Agregar -->
+<div class="modal fade" id="nuevoProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Nuevo Producto</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <!-- formulario -->
+          <form class="form-horizontal" method="post" id="guardar_producto" name="guardar_producto" action="{% url 'GRA_PRO' %}">
+            {% csrf_token %}
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-3">
+                <label>Código</label>
+              </div>             
+              <div class="col-md-8">
+                <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código del producto" required>
+              </div>
+            </div>
+            
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-3">
+                <label>Nombre</label>
+              </div>
+              <div class="col-md-8">
+                <textarea class="form-control" id="nombre" name="nombre" placeholder="Nombre del producto" required maxlength="255" ></textarea>                
+              </div>
+            </div>
+            
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-3">
+                <label>Descripcion</label>
+              </div>
+              <div class="col-md-8">
+                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripcion del producto" required maxlength="255" ></textarea>                
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-3">
+                <label for="categoria" class="col-sm-3 control-label">Categoría</label>
+              </div>
+            
+              <div class="col-md-8">
+              <select class='form-control' name='catego' id='catego' required>
+                <option value="">Selecciona una categoría</option>
+                  {% for ca in categorias %}
+                  <option value="{{ca.idcategoria}}">{{ca.descripcion}} </option>			
+                  {% endfor %}                                    
+              </select>			  
+            </div>
+            </div>
+            
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-3">
+              <label for="precio" class="col-sm-3 control-label">Precio</label>
+            </div>
+            <div class="col-md-8">
+              <input type="text" class="form-control" id="precio" name="precio" placeholder="Precio de venta del producto" required pattern="^[0-9]{1,5}(\.[0-9]{0,2})?$" title="Ingresa sólo números con 0 ó 2 decimales" maxlength="8">
+            </div>
+          </div>
+          
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-3">
+              <label for="stock">Stock</label>
+            </div>            
+            <div class="col-md-8">
+              <input type="number" min="0" class="form-control" id="stock" name="stock" placeholder="Inventario inicial" required  maxlength="8">
+            </div>
+          </div>
+
+
+          <!-- fin formulario -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Grabar Cambios</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal Modificar -->
+<div class="modal fade" id="modificarProducto"  aria-labelledby="exampleModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel2">Modificar un Producto</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <!-- formulario -->
+          <form class="form-horizontal" method="post" id="modificar_producto" name="modificar_producto" >
+            {% csrf_token %}
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-3">
+                <label>Código</label>
+              </div>             
+              <div class="col-md-8">
+                <input type="text" class="form-control" id="mod_codigo" name="mod_codigo" value="1" required readonly>
+              </div>
+            </div>
+            
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-3">
+                <label>Nombre</label>
+              </div>
+              <div class="col-md-8">
+                <textarea class="form-control" id="mod_nombre" name="mod_nombre" placeholder="Nombre del producto" required maxlength="255" ></textarea>                
+              </div>
+            </div>
+            
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-3">
+                <label>Descripcion</label>
+              </div>
+              <div class="col-md-8">
+                <textarea class="form-control" id="mod_descripcion" name="mod_descripcion" placeholder="Descripcion del producto" required maxlength="255" ></textarea>                
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-3">
+                <label class="col-sm-3 control-label">Categoría</label>
+              </div>
+            
+              <div class="col-md-8">
+              <select class='form-control' name='mod_catego' id='mod_catego' required>
+                <option value="">Selecciona una categoría</option>
+                  {% for ca in categorias %}
+                  <option value="{{ca.idcategoria}}">{{ca.descripcion}} </option>			
+                  {% endfor %}                                    
+              </select>			  
+            </div>
+            </div>
+            
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-3">
+              <label  class="col-sm-3 control-label">Precio</label>
+            </div>
+            <div class="col-md-8">
+              <input type="text" class="form-control" id="mod_precio" name="mod_precio" placeholder="Precio de venta del producto" required pattern="^[0-9]{1,5}(\.[0-9]{0,2})?$" title="Ingresa sólo números con 0 ó 2 decimales" maxlength="8">
+            </div>
+          </div>
+          
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-3">
+              <label>Stock</label>
+            </div>            
+            <div class="col-md-8">
+              <input type="number" min="0" class="form-control" id="mod_stock" name="mod_stock" placeholder="Inventario inicial" required  maxlength="8">
+            </div>
+          </div>
+
+
+          <!-- fin formulario -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Modificar Cambios</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<!-- Proceso Eliminar -->
+<script>
+  function eliminar(id, producto) {
+    Swal.fire({
+      title: "Desea Eliminar el Producto "+producto+" ?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Si",
+      denyButtonText: `No`
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        location.href='/eliminar_producto/'+id+'/';
+      } else if (result.isDenied) {
+        Swal.fire("No se elimino", "", "info");
+      }
+    });
+  }
+</script>
+
+<!-- Eliminar -->
+<!-- Modal -->
+{% endblock contenido2 %}

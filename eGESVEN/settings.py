@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt',
     'web',
 ]
 
@@ -76,20 +78,22 @@ WSGI_APPLICATION = 'eGESVEN.wsgi.application'
 
 DATABASES = {
     
-    'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'orcl',
-        'USER': 'eGESVEN',
-        'PASSWORD': 'eGESVEN',
-        'HOST': 'localhost',
-        'PORT': 1522,
+'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
-# 'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
 
+
+}
+    # conexion a Oracle OK
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.oracle',
+    #     'NAME': 'orcl',
+    #     'USER': 'eGESVEN',
+    #     'PASSWORD': 'eGESVEN',
+    #     'HOST': 'localhost',
+    #     'PORT': 1522,
+    # }
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -125,6 +129,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+import os
+MEDIA_URL = '/media/' # indicar el nombre de la carpeta de medios
+MEDIA_ROOT = os.path.join(BASE_DIR,'media') # ubicacion
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

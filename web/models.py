@@ -6,7 +6,19 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 
+
+# class User(AbstractUser):
+#     phone = models.CharField(max_length=10,unique=True, blank=True, null=True, validators=[RegexValidator(
+#     regex=r"^\d{10}", message="Phone number must be 10 digits only.")])
+#     address = models.TextField(max_length=50, null=True, blank=True)
+#     dob = models.DateField(null=True, blank=True)
+#     otp = models.CharField(max_length=6, null=True, blank=True)
+#     otp_expiry = models.DateTimeField(blank=True, null=True)
+#     max_otp_try = models.CharField(max_length=2, default=3)
+#     otp_max_out = models.DateTimeField(blank=True, null=True)
 
 class Categoria(models.Model):
     idcategoria = models.IntegerField(primary_key=True)
@@ -93,7 +105,7 @@ class Perfil(models.Model):
 
 
 class Productos(models.Model):
-    idproducto = models.IntegerField(primary_key=True)
+    idproducto = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=60)
     descripcion = models.CharField(max_length=100)
     precio = models.IntegerField()
@@ -141,6 +153,7 @@ class Usuarios(models.Model):
     correo = models.CharField(max_length=60)
     telefono = models.IntegerField()
     direccion = models.CharField(max_length=120)
+    contrasena=models.CharField(max_length=120)
     idcomuna = models.ForeignKey(Comuna, models.DO_NOTHING, db_column='idcomuna')
 
     class Meta:
