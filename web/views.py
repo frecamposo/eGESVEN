@@ -10,7 +10,10 @@ from datetime import datetime
 
 
 def index(request):
-    return render(request,'index.html')
+    contexto={}
+    categorias=Categoria.objects.all()
+    contexto["categorias"]=categorias
+    return render(request,'index.html',contexto)
 
 def login(request):
     contexto={}
