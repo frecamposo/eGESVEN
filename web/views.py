@@ -8,19 +8,63 @@ import requests
 from django.contrib.auth.hashers import make_password,check_password
 from datetime import datetime
 
+def vaciar_carro(request):
+    if  'carrito' in request.session:
+        del request.session['carrito']
+        del request.session['total']
 
-def index(request):
     contexto={}
     categorias=Categoria.objects.all()
     contexto["categorias"]=categorias
     productos= Productos.objects.all()
     contexto["productos"]=productos
     return render(request,'index.html',contexto)
+        
+
+def agregar_carrito(request,id):
+    if "carrito" in request.session:
+        lista= request.session.get("carrito",[])
+        total= request.session.get("total")
+    else:
+        lista= []
+        total={"cantidad":0,"total":0}
+    reg= Productos.objects.get(idproducto=id)
+    dato={
+        "id":reg.idproducto,"nombre":reg.nombre,"precio":reg.precio,"imagen":reg.foto.url
+    }
+    sub_total= total["total"]+reg.precio
+    cant_total = total["cantidad"]+1
+    total={"cantidad":cant_total,"total":sub_total}
+    request.session["total"]=total
+    lista.append(dato)     
+    request.session["carrito"]=lista
+    
+    lista_recuperada=request.session.get('carrito',[])
+    contexto={}
+    categorias=Categoria.objects.all()
+    contexto["categorias"]=categorias
+    productos= Productos.objects.all()
+    contexto["productos"]=productos
+    contexto["carrito"]=lista_recuperada
+    contexto["total"]=request.session.get('total')
+    return render(request,'index.html',contexto)
+    
+def index(request):    
+    lista_recuperada=request.session.get('carrito',[])
+    contexto={}
+    categorias=Categoria.objects.all()
+    contexto["categorias"]=categorias
+    productos= Productos.objects.all()
+    contexto["productos"]=productos
+    contexto["carrito"]=lista_recuperada
+    return render(request,'index.html',contexto)
 
 def login(request):
     contexto={}
     categorias=Categoria.objects.all()
     contexto["categorias"]=categorias
+    productos= Productos.objects.all()
+    contexto["productos"]=productos
     if request.method == 'POST':
         usuario= request.POST.get('txtUsuario')
         correo= request.POST.get('txtCorreo')        
@@ -52,6 +96,7 @@ def login(request):
                     user = authenticate(request,username=usuario,password=pass1)            
                     request.session["perfil"]='Usuario'
                     login_aut(request,user)
+                    
                     return render(request, "index.html",contexto)
         except  BaseException as error:
             contexto["mensaje"]=error
@@ -61,7 +106,44 @@ def base(request):
     return render(request,'base.html')
 
 def admin(request):
-    return render(request,'admin.html')
+    contexto={}
+    categorias=Categoria.objects.all()
+    contexto["categorias"]=categorias
+    productos= Productos.objects.all()
+    contexto["data"]=productos    
+    return render(request,'admin.html',contexto)
+
+def modificar_producto(request):
+    contexto={}
+    productos= Productos.objects.all()
+    contexto["productos"]=productos    
+    datos=Productos.objects.all()
+    contexto["data"]=datos
+    categorias=Categoria.objects.all()
+    contexto["categorias"]=categorias
+    if request.method == 'POST':
+        print("aqui")
+        try:
+            prod=Productos.objects.get(idproducto=request.POST.get('mod_codigo'))
+            prod.nombre=request.POST.get('mod_nombre')
+            prod.descripcion=request.POST.get('mod_descripcion')
+            prod.precio=request.POST.get('mod_precio')
+            cat= Categoria.objects.get(idcategoria=request.POST.get('mod_catego'))
+            prod.idcategoria=cat
+            prod.stock=request.POST.get('mod_stock')
+            ima  = request.FILES.get("mod_foto")
+            if ima is not None:
+                prod.foto= ima
+            prod.valoracion=0
+            try:
+                prod.save()
+                contexto["mensaje"]="Modificar Producto"            
+            except BaseException as error:
+                contexto["mensaje"]=error
+        except BaseException as error:
+            contexto["mensaje"]=error                        
+    return render(request,'admin.html',contexto)
+
 
 def grabar_producto(request):
     contexto={}
@@ -157,8 +239,13 @@ def registrar_usuario(request):
 
 @login_required(login_url='/login/')
 def cerrar_sesion(request):
+    contexto={}
+    categorias=Categoria.objects.all()
+    contexto["categorias"]=categorias
+    productos= Productos.objects.all()
+    contexto["productos"]=productos
     logout(request)
-    return render(request, 'index.html')
+    return render(request, 'index.html',contexto)
 
 def login_admin(request):
     contexto={}
@@ -178,4 +265,34 @@ def login_admin(request):
             return render(request,'admin.html',contexto)
         else:
             contexto["mensaje"]="usuario o Contraseña Incorrecta"
-    return render(request, 'login_admin.html')
+    return render(request, 'login_admin.html',contexto)
+
+def insertar_galeria(request):
+    contexto={}
+    categorias=Categoria.objects.all()
+    contexto["categorias"]=categorias
+    productos= Productos.objects.all()
+    contexto["data"]=productos    
+    
+    if request.POST:
+        img_codigo = request.POST.get("img_codigo")
+        prod= Productos.objects.get(idproducto=img_codigo)
+        foto = request.FILES.get("img_foto")
+
+        gale = Galeria()
+        gale.foto = foto
+        gale.idproducto = prod
+        gale.save()
+        
+        contexto["mensaje"] = "Agrego Imagen para "+prod.nombre
+    return render(request,'admin.html',contexto)
+
+def producto(request,id):
+    contexto={}
+    categorias=Categoria.objects.all()
+    pro=Productos.objects.get(idproducto=id)
+    fotos= Galeria.objects.filter(idproducto=pro)
+    
+    contexto["categorias"]=categorias
+    contexto["fotos"]=fotos
+    return render(request,'producto.html',contexto)

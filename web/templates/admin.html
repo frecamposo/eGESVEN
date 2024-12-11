@@ -48,8 +48,8 @@
               <td>{{X.idcategoria.descripcion}}</td>
               <td>
                 <button type="button" class="btn btn-danger"  data-bs-toggle="modal" onclick="eliminar({{X.idproducto}},'{{X.nombre}}')">E</button>
-                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#modificarProducto">M</button>                          
-                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#nuevoProducto">Img</button>                          
+                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#modificarProducto" onclick="modificar({{X.idproducto}},'{{X.nombre}}','{{X.descripcion}}',{{X.precio}},{{X.stock}})">M</button>                          
+                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#imagenProducto" onclick="imagen({{X.idproducto}})">Img</button>                          
                 <button type="button" class="btn btn-info"  data-bs-toggle="modal" data-bs-target="#nuevoProducto">V</button> 
               </td>
 
@@ -174,7 +174,7 @@
       </div>
       <div class="modal-body">
           <!-- formulario -->
-          <form class="form-horizontal" method="post" id="modificar_producto" name="modificar_producto" >
+          <form class="form-horizontal" method="post" id="modificar_producto" enctype="multipart/form-data" name="modificar_producto" action="{% url 'MOD_PROD' %}" >
             {% csrf_token %}
             <div class="row" style="margin-top: 10px;">
               <div class="col-md-3">
@@ -266,7 +266,58 @@
       }
     });
   }
+  function modificar(id,nombre,descripcion, precio,stock) {
+    document.getElementById("mod_codigo").value=id
+    document.getElementById("mod_nombre").value=nombre
+    document.getElementById("mod_descripcion").value=descripcion
+    document.getElementById("mod_precio").value=precio
+    document.getElementById("mod_stock").value=stock
+  }
+  function imagen(id) {
+    document.getElementById("img_codigo").value=id
+  }
 </script>
+
+<!-- Modal Subir Imagen -->
+<div class="modal fade" id="imagenProducto"  aria-labelledby="exampleModalLabel3" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel3">Imagen un Producto</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <!-- formulario -->
+          <form class="form-horizontal" method="post" id="imagen_producto" enctype="multipart/form-data" name="imagen_producto" action="{% url 'IG' %}" >
+            {% csrf_token %}
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-3">
+                <label>Código</label>
+              </div>             
+              <div class="col-md-8">
+                <input type="text" class="form-control" id="img_codigo" name="img_codigo" value="1" required readonly>
+              </div>
+            </div>
+            
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-3">
+                <label>Nombre</label>
+              </div>
+              <div class="col-md-8">
+                <input type="file" class="form-control" id="img_foto" name="img_foto">                
+              </div>
+            </div>
+          
+          <!-- fin formulario -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Subir Imagen</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
 
 <!-- Eliminar -->
 <!-- Modal -->
