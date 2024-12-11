@@ -13,6 +13,8 @@ def index(request):
     contexto={}
     categorias=Categoria.objects.all()
     contexto["categorias"]=categorias
+    productos= Productos.objects.all()
+    contexto["productos"]=productos
     return render(request,'index.html',contexto)
 
 def login(request):
@@ -71,7 +73,6 @@ def grabar_producto(request):
         print("aqui")
         try:
             prod=Productos()
-            # prod.idproducto=request.POST.get('codigo')
             prod.nombre=request.POST.get('nombre')
             prod.descripcion=request.POST.get('descripcion')
             prod.precio=request.POST.get('precio')

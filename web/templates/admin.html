@@ -24,7 +24,7 @@
  <div id="breadcrumb" class="section">
     <div class="container">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="font-size: small;">
           
           <table class="table table-hover">
             <tr>
@@ -47,10 +47,10 @@
               <td>{{X.valoracion}}</td>
               <td>{{X.idcategoria.descripcion}}</td>
               <td>
-                <button type="button" class="btn btn-danger"  data-bs-toggle="modal" onclick="eliminar({{X.idproducto}},'{{X.nombre}}')">Eliminar</button>
-                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#modificarProducto">Modificar</button>                          
-                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#nuevoProducto">Cargar Imagenes</button>                          
-                <button type="button" class="btn btn-info"  data-bs-toggle="modal" data-bs-target="#nuevoProducto">Ver</button> 
+                <button type="button" class="btn btn-danger"  data-bs-toggle="modal" onclick="eliminar({{X.idproducto}},'{{X.nombre}}')">E</button>
+                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#modificarProducto">M</button>                          
+                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#nuevoProducto">Img</button>                          
+                <button type="button" class="btn btn-info"  data-bs-toggle="modal" data-bs-target="#nuevoProducto">V</button> 
               </td>
 
             </tr>
@@ -87,12 +87,7 @@
           <form class="form-horizontal" method="post" id="guardar_producto" name="guardar_producto" enctype="multipart/form-data" action="{% url 'GRA_PRO' %}">
             {% csrf_token %}
             <div class="row" style="margin-top: 10px;">
-              <div class="col-md-3">
-                <label>Código</label>
-              </div>             
-              <div class="col-md-8">
-                <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código del producto" required>
-              </div>
+              
             </div>
             
             <div class="row" style="margin-top: 10px;">
