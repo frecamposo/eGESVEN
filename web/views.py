@@ -295,4 +295,5 @@ def producto(request,id):
     
     contexto["categorias"]=categorias
     contexto["fotos"]=fotos
+    contexto["producto"]=pro
     return render(request,'producto.html',contexto)

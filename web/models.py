@@ -68,7 +68,7 @@ class EstadoEnvio(models.Model):
 
 class Galeria(models.Model):
     idfoto = models.AutoField(primary_key=True)  # The composite primary key (idfoto, idproducto) found, that is not supported. The first column is selected.
-    foto = models.TextField()
+    foto = models.ImageField(upload_to='galeria')
     idproducto = models.ForeignKey('Productos', models.DO_NOTHING, db_column='idproducto')
 
     class Meta:
