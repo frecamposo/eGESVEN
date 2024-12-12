@@ -1,20 +1,10 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
+
 from django.db import models
 
 
 class Categoria(models.Model):
     idcategoria = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=50)
-
-    class Meta:
-        managed = False
-        db_table = 'categoria'
 
     def __str__(self):
         return self.descripcion
@@ -23,9 +13,9 @@ class Comuna(models.Model):
     idcomuna = models.SmallAutoField(primary_key=True)
     descripcion = models.CharField(max_length=50)
 
-    class Meta:
-        managed = False
-        db_table = 'comuna'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'comuna'
 
     def __str__(self):
         return self.descripcion
@@ -37,10 +27,10 @@ class DetalleVenta(models.Model):
     precio = models.IntegerField()
     total = models.IntegerField()
 
-    class Meta:
-        managed = False
-        db_table = 'detalle_venta'
-        unique_together = (('idproducto', 'idventa'),)
+    # class Meta:
+    #     managed = False
+    #     db_table = 'detalle_venta'
+    #     unique_together = (('idproducto', 'idventa'),)
 
 class Envios(models.Model):
     idenvio = models.AutoField(primary_key=True)
@@ -52,18 +42,18 @@ class Envios(models.Model):
     direccion_entrega = models.CharField(max_length=120)
     fono_contacto = models.IntegerField()
 
-    class Meta:
-        managed = False
-        db_table = 'envios'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'envios'
 
 
 class EstadoEnvio(models.Model):
     idestado = models.BooleanField(primary_key=True)
     descripcion = models.CharField(max_length=45)
 
-    class Meta:
-        managed = False
-        db_table = 'estado_envio'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'estado_envio'
 
 
 class Galeria(models.Model):
@@ -71,28 +61,28 @@ class Galeria(models.Model):
     foto = models.ImageField(upload_to='galeria')
     idproducto = models.ForeignKey('Productos', models.DO_NOTHING, db_column='idproducto')
 
-    class Meta:
-        managed = False
-        db_table = 'galeria'
-        unique_together = (('idfoto', 'idproducto'),)
+    # class Meta:
+    #     managed = False
+    #     db_table = 'galeria'
+    #     unique_together = (('idfoto', 'idproducto'),)
 
 
 class MetodoPago(models.Model):
     idmetodopago = models.BooleanField(primary_key=True)
     descripcion = models.CharField(max_length=50)
 
-    class Meta:
-        managed = False
-        db_table = 'metodo_pago'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'metodo_pago'
 
 
 class Perfil(models.Model):
     idperfil = models.CharField(primary_key=True, max_length=1)
     descripcion = models.CharField(max_length=60)
 
-    class Meta:
-        managed = False
-        db_table = 'perfil'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'perfil'
 
 
 class Productos(models.Model):
@@ -105,9 +95,9 @@ class Productos(models.Model):
     valoracion = models.IntegerField()
     idcategoria = models.ForeignKey(Categoria, models.DO_NOTHING, db_column='idcategoria')
 
-    class Meta:
-        managed = False
-        db_table = 'productos'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'productos'
 
 
 class Repartidor(models.Model):
@@ -120,9 +110,9 @@ class Repartidor(models.Model):
     fono = models.IntegerField()
     idcomuna = models.ForeignKey(Comuna, models.DO_NOTHING, db_column='idcomuna')
 
-    class Meta:
-        managed = False
-        db_table = 'repartidor'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'repartidor'
 
 
 class UserPerfil(models.Model):
@@ -131,9 +121,9 @@ class UserPerfil(models.Model):
     rut = models.ForeignKey('Usuarios', models.DO_NOTHING, db_column='rut')
     idperfil = models.ForeignKey(Perfil, models.DO_NOTHING, db_column='idperfil')
 
-    class Meta:
-        managed = False
-        db_table = 'user_perfil'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'user_perfil'
 
 
 class Usuarios(models.Model):
@@ -148,9 +138,9 @@ class Usuarios(models.Model):
     contrasena = models.CharField(max_length=120)
     idcomuna = models.ForeignKey(Comuna, models.DO_NOTHING, db_column='idcomuna')
 
-    class Meta:
-        managed = False
-        db_table = 'usuarios'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'usuarios'
 
 
 class Vehiculo(models.Model):
@@ -160,9 +150,9 @@ class Vehiculo(models.Model):
     capacidad_kilos = models.IntegerField()
     idrepartidor = models.ForeignKey(Repartidor, models.DO_NOTHING, db_column='idrepartidor')
 
-    class Meta:
-        managed = False
-        db_table = 'vehiculo'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'vehiculo'
 
 
 class Venta(models.Model):
@@ -175,6 +165,6 @@ class Venta(models.Model):
     rut = models.ForeignKey(Usuarios, models.DO_NOTHING, db_column='rut')
     idmetodopago = models.ForeignKey(MetodoPago, models.DO_NOTHING, db_column='idmetodopago')
 
-    class Meta:
-        managed = False
-        db_table = 'venta'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'venta'

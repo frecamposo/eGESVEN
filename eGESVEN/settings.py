@@ -77,22 +77,34 @@ WSGI_APPLICATION = 'eGESVEN.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-        'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'orcl',
-        'USER': 'eGESVENT',
-        'PASSWORD': 'eGESVENT',
-        'HOST': 'localhost',
-        'PORT': 1522,
-    }
+    #     'default': {
+    #     'ENGINE': 'django.db.backends.oracle',
+    #     'NAME': 'orcl',
+    #     'USER': 'eGESVENT',
+    #     'PASSWORD': 'eGESVENT',
+    #     'HOST': 'localhost',
+    #     'PORT': 1522,
+    # }
 
-
+    'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
 }
 
-# 'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
+    # conexion con MySQL
+    # 'default': {
+    #         'ENGINE': 'django.db.backends.mysql',
+    #         'NAME': 'nombre_base_datos',
+    #         'USER': 'tu_usuario',
+    #         'PASSWORD': 'tu_contraseña',
+    #         'HOST': 'localhost',  # Cambia si estás usando un servidor remoto
+    #         'PORT': '3306',       # El puerto predeterminado de MySQL
+    #         'OPTIONS': {
+    #             'sql_mode': 'traditional',  # Opcional, para manejar SQL más estrictamente
+    #         },
+    #     }
+
     # conexion a Oracle OK
     #     'default': {
     #     'ENGINE': 'django.db.backends.oracle',
