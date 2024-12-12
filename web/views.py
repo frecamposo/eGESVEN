@@ -19,7 +19,36 @@ def vaciar_carro(request):
     productos= Productos.objects.all()
     contexto["productos"]=productos
     return render(request,'index.html',contexto)
-        
+  
+  
+def agregar_carrito_cant(request,id,cant):
+    if "carrito" in request.session:
+        lista= request.session.get("carrito",[])
+        total= request.session.get("total")
+    else:
+        lista= []
+        total={"cantidad":0,"total":0}
+    reg= Productos.objects.get(idproducto=id)
+    dato={
+        "id":reg.idproducto,"nombre":reg.nombre,"precio":reg.precio,"imagen":reg.foto.url
+    }
+    sub_total= total["total"]+reg.precio
+    cant_total = total["cantidad"]+cant
+    total={"cantidad":cant_total,"total":sub_total}
+    request.session["total"]=total
+    lista.append(dato)     
+    request.session["carrito"]=lista
+    
+    lista_recuperada=request.session.get('carrito',[])
+    contexto={}
+    categorias=Categoria.objects.all()
+    contexto["categorias"]=categorias
+    productos= Productos.objects.all()
+    contexto["productos"]=productos
+    contexto["carrito"]=lista_recuperada
+    contexto["total"]=request.session.get('total')
+    return render(request,'index.html',contexto)
+           
 
 def agregar_carrito(request,id):
     if "carrito" in request.session:
@@ -40,6 +69,7 @@ def agregar_carrito(request,id):
     request.session["carrito"]=lista
     
     lista_recuperada=request.session.get('carrito',[])
+        
     contexto={}
     categorias=Categoria.objects.all()
     contexto["categorias"]=categorias

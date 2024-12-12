@@ -80,12 +80,12 @@
 								<div class="qty-label">
 									Cantidad
 									<div class="input-number">
-										<input type="number" value=0>
+										<input type="number" id="cantidad" name="cantidad" value=0>
 										<span class="qty-up">+</span>
 										<span class="qty-down">-</span>
 									</div>
 								</div>
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Agregar al Carrito</button>								
+								<button class="add-to-cart-btn" onclick="cargar({{producto.idproducto}})"><i class="fa fa-shopping-cart"></i>Agregar al Carrito</button>								
 							</div>
 
 							
@@ -319,5 +319,11 @@
 		<!-- /SECTION -->
 
 		<!-- Section -->
+		<script>
+		function agregar(id) {
+			cant=document.getElementById("cantidad").value;
+			location.href='/agregar_carrito_cant/'+id+'/'+cant+'/'
+		}
+		</script>
 		
 {% endblock contenido1 %}
