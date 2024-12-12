@@ -1,0 +1,56 @@
+{% extends "base_admin.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+{% endblock css %}
+{% block contenido1 %}
+
+<div class="container" style="padding-top: 25px;padding-bottom: 25px;">
+    <h1>Realizacion del Pedido</h1>
+</div>
+<style>
+    #map {
+        width: 480px;
+        height:350px;
+        /* Ajusta el tamaño del mapa */
+    }
+</style>
+<div class="container">
+    <table class="table"style="width: 75%;">
+
+        <tr>
+            <form action="{% url 'LUGAR' %}" method="post">
+                {% csrf_token %}
+                <td>Direccion de destino del envio:</td>
+                <td>
+                    <input type="text" name="lugar" id="lugar">
+                    <input type="submit" value="OK">
+                </td>
+            </form>
+            <td>
+                <label for="">Latitud:</label>{{pos.lat}} <br>
+                <label for="">Longitud:</label>{{pos.lng}} <br>                
+            </td>
+        </tr>
+    </table>    
+</div>
+
+<h1>Mapa con Leaflet</h1>
+<div id="map"></div>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // Crear el mapa y centrarlo en una ubicación inicial
+    var map = L.map('map').setView([{{pos.lat}}, {{pos.lng}}], 13);
+
+    // Añadir un mapa base desde OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Añadir un marcador
+    L.marker([{{pos.lat}}, {{pos.lng}}]).addTo(map)
+        .bindPopup('¡Usted Vive Aqui!')
+        .openPopup();
+</script>
+{% endblock contenido1 %}

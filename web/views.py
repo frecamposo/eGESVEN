@@ -7,6 +7,24 @@ from django.contrib.auth.models import User,Group
 import requests
 from django.contrib.auth.hashers import make_password,check_password
 from datetime import datetime
+import asyncio
+
+from geopy.geocoders import Nominatim
+
+def lugar(request):
+   contexto={}
+   try:
+        geolocator = Nominatim(user_agent="my_app")
+        location = geolocator.geocode("1600 Amphitheatre Parkway, Mountain View, CA")
+        if request.method=='POST':
+            dire=request.POST.get('lugar')
+            location = geolocator.geocode(dire)
+        print(location.latitude, location.longitude)
+        contexto["pos"]={"lat":location.latitude,"lng":location.longitude}
+   except BaseException as error:
+       contexto["mensaje"]="no se ubico la direccion, ingresela nuevamente"
+   return render(request,"pedido.html",contexto)
+
 
 def vaciar_carro(request):
     if  'carrito' in request.session:
@@ -330,3 +348,6 @@ def producto(request,id):
     contexto["fotos"]=fotos
     contexto["producto"]=pro
     return render(request,'producto.html',contexto)
+
+def realizar_pedido(request):
+    return render(request,"pedido.html")
