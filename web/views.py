@@ -13,6 +13,7 @@ from geopy.geocoders import Nominatim
 
 def lugar(request):
    contexto={}
+   dire=''
    try:
         geolocator = Nominatim(user_agent="my_app")
         location = geolocator.geocode("1600 Amphitheatre Parkway, Mountain View, CA")
@@ -21,6 +22,7 @@ def lugar(request):
             location = geolocator.geocode(dire)
         print(location.latitude, location.longitude)
         contexto["pos"]={"lat":location.latitude,"lng":location.longitude}
+        contexto["direccion"]=dire
    except BaseException as error:
        contexto["mensaje"]="no se ubico la direccion, ingresela nuevamente"
    return render(request,"pedido.html",contexto)

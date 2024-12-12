@@ -32,11 +32,15 @@
                 <label for="">Longitud:</label>{{pos.lng}} <br>                
             </td>
         </tr>
-    </table>    
+    </table>
+    <div>
+        <h1>Usted vive en:{{direccion}}</h1>
+        <div id="map"></div>
+
+    </div>
+    
 </div>
 
-<h1>Mapa con Leaflet</h1>
-<div id="map"></div>
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
