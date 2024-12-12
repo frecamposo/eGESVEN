@@ -100,8 +100,11 @@ def login(request):
         correo= request.POST.get('txtCorreo')        
         pass1=request.POST.get('txtPassword')
         try:
-            sql="select u.rut,u.nombre,u.apellido_pat,u.correo,p.idperfil,u.contrasena from usuarios u inner join user_perfil up on up.rut = u.rut inner join perfil p on up.idperfil = p.idperfil where u.nombre='"+usuario+"' and u.correo='"+correo+"' "
+            sql="select u.rut,u.nombre,u.apellido_pat,u.correo,p.idperfil,u.contrasena from web_usuarios u inner join web_userperfil up on up.rut = u.rut inner join web_perfil p on up.idperfil = p.idperfil where u.nombre='"+usuario+"' and u.correo='"+correo+"' "
             # usu=Usuarios.objects.get(nombre=usuario,correo=correo)
+            usu=Usuarios.objects.get(nombre=usuario,correo=correo)
+            print("aqui va")
+            print(usu)
             print(sql)
             usuarios= Usuarios.objects.raw(sql)
             x=0
