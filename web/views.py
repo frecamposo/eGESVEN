@@ -107,6 +107,18 @@ def index(request):
     productos= Productos.objects.all()
     contexto["productos"]=productos
     contexto["carrito"]=lista_recuperada
+    if request.method == 'POST':
+        cate = request.POST.get("categoria")
+        if request.POST.get("buscar")!="":
+            if request.POST.get("categoria")=="Todo":
+                productos= Productos.objects.all()
+            else:                                             
+                productos = Productos.objects.filter(idcategoria=cate).filter(nombre__contains=request.POST.get("buscar"))            
+        if request.POST.get("categoria")!="Todo":
+            productos = Productos.objects.filter(idcategoria=cate)
+        if request.POST.get("categoria")=="Todo" and request.POST.get("buscar")!="":
+            productos = Productos.objects.filter(nombre__contains=request.POST.get("buscar"))
+    contexto["productos"]=productos
     return render(request,'index.html',contexto)
 
 def login(request):

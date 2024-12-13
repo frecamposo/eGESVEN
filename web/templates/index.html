@@ -138,15 +138,17 @@
             <!-- SEARCH BAR -->
             <div class="col-md-6">
               <div class="header-search">
-                <form>
-                  <select class="input-select">
+                <form action="" method="post">
+                  {% csrf_token %}
+                  <select class="input-select" name="categoria">
+                    <option value="Todo">Todo</option>
                     {% for cat in categorias %}
                     <option value="{{cat.idcategoria}}">
                       {{cat.descripcion}}
                     </option>
                     {% endfor %}
                   </select>
-                  <input class="input" placeholder="Buscar Aqui" />
+                  <input class="input" name="buscar" placeholder="Buscar Aqui" />
                   <button class="search-btn">Buscar</button>
                 </form>
               </div>
