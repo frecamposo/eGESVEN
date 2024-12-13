@@ -243,6 +243,7 @@ def eliminar_producto(request,id):
 
 def registrar_usuario(request):
     contexto={}
+    contexto["mensaje"]=""
     comuna=Comuna.objects.all()
     contexto["comunas"]=comuna
     per=Perfil.objects.get(descripcion='Usuario')

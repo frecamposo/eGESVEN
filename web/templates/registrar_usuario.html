@@ -103,14 +103,12 @@
                   <input type="submit" value="Registrar Usuario" />
                 </td>
                 <td>
-                  <a href="{% url 'LOGIN' %}">Login Aqui</a>
-                   
+                  <a href="{% url 'LOGIN' %}"><h3>Loguearse Aqui</h3></a>                   
                 </td>
                 
               </tr>
             </table>
           </form>
-          {{mensaje}}
         </div>
       </div>
       <!-- /row -->
@@ -120,6 +118,15 @@
   </div>
   <!-- /Contenido Login -->
 
+  {% if mensaje == "usuario Grabado" %}
+  <script>
+        Swal.fire({
+          title: "Usuario Almacenado",
+          text: "Sus datos se han registrado correctamente",
+          icon: "success"
+        });   
+  </script>
+  {% endif %}
   <script>
     function validar() {
       var p1= document.getElementById("pass1").value;
