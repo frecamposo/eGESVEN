@@ -9,7 +9,7 @@
       <!-- row -->
       <div class="row">
         <div class="col-md-8" style="border:solid 2px rgb(1, 0, 0);padding-top: 15px;">
-          <form action="{% url 'REG_USU' %}" method="post">
+          <form action="{% url 'REG_USU' %}" method="post" onsubmit="return validar()">
           {% csrf_token %}  
             <table>
               <tr>
@@ -120,4 +120,19 @@
   </div>
   <!-- /Contenido Login -->
 
+  <script>
+    function validar() {
+      var p1= document.getElementById("pass1").value;
+      var p2= document.getElementById("pass2").value;
+      if (p1!=p2) {
+        Swal.fire({
+          title: "Contraseñas Incorrectas",
+          text: "Las contraseñas no son iguales",
+          icon: "question"
+        });
+        return false;
+      }
+      return true;
+    }
+  </script>
 {% endblock contenido1 %}
