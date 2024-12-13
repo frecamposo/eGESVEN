@@ -58,6 +58,10 @@
             <li>
               <a href="#"><i class="fa fa-user-o"></i> Mi Cuenta</a>
             </li>
+            <li>
+              <a href="{% url 'IND' %}"><i class="fa fa-home"></i>Home</a>
+            </li>
+
           </ul>
         </div>
       </div>
@@ -78,7 +82,7 @@
             <!-- /LOGO -->
 
             <!-- SEARCH BAR -->
-            <div class="col-md-6">
+            {% comment %} <div class="col-md-6">
               <div class="header-search">
                 <form>
                   <select class="input-select">
@@ -90,11 +94,11 @@
                   <button class="search-btn">Buscar</button>
                 </form>
               </div>
-            </div>
+            </div> {% endcomment %}
             <!-- /SEARCH BAR -->
 
             <!-- ACCOUNT -->
-            <div class="col-md-3 clearfix">
+            {% comment %} <div class="col-md-3 clearfix">
               <div class="header-ctn">
                 <!-- Wishlist -->
                 <div>
@@ -158,7 +162,7 @@
                 </div>
                 <!-- /Menu Toogle -->
               </div>
-            </div>
+            </div> {% endcomment %}
             <!-- /ACCOUNT -->
           </div>
           <!-- row -->
