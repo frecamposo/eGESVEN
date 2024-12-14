@@ -1,4 +1,4 @@
-{% extends "base_admin.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block contenido1 %}
 
@@ -320,7 +320,7 @@
 
 		<!-- Section -->
 		<script>
-		function agregar(id) {
+		function cargar(id) {
 			cant=document.getElementById("cantidad").value;
 			location.href='/agregar_carrito_cant/'+id+'/'+cant+'/'
 		}

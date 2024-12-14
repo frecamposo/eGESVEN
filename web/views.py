@@ -53,7 +53,7 @@ def agregar_carrito_cant(request,id,cant):
         "id":reg.idproducto,"nombre":reg.nombre,"precio":reg.precio,"imagen":reg.foto.url
     }
     sub_total= total["total"]+reg.precio
-    cant_total = total["cantidad"]+cant
+    cant_total = int(total["cantidad"])+int(cant)
     total={"cantidad":cant_total,"total":sub_total}
     request.session["total"]=total
     lista.append(dato)     
@@ -365,6 +365,17 @@ def insertar_galeria(request):
 
 def producto(request,id):
     contexto={}
+    if "carrito" in request.session:
+        lista= request.session.get("carrito",[])
+        total= request.session.get("total")
+    else:
+        lista= []
+        total={"cantidad":0,"total":0}
+    
+    contexto["carrito"]=lista
+    contexto["total"]=total
+    
+    
     categorias=Categoria.objects.all()
     pro=Productos.objects.get(idproducto=id)
     fotos= Galeria.objects.filter(idproducto=pro)
