@@ -159,7 +159,7 @@
             <div class="col-md-3 clearfix">
               <div class="header-ctn">
                 <!-- Catalogo -->
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and total.cantidad > 0 %}
                 <div class="dropdown">
                   <a
                     class="dropdown-toggle"
@@ -228,11 +228,11 @@
                         <a href="{% url 'LOGIN' %}">Inicie Session</a>
                       </h5>
                     </div>
-                    <div class="cart-btns">
+                    {% comment %} <div class="cart-btns">
                       <a href="#">Ver Carro</a>
                       <a href="#">Comprar <i class="fa fa-arrow-circle-right"></i
                       ></a>
-                    </div>
+                    </div> {% endcomment %}
                   </div>
                 </div>
 
