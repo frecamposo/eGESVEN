@@ -51,6 +51,7 @@
                 onclick="eliminar({{X.idproducto}},'{{X.nombre}}')">E</button>
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificarProducto"
                 onclick="modificar({{X.idproducto}},'{{X.nombre}}','{{X.descripcion}}',{{X.precio}},{{X.stock}})">M</button>
+                {% comment %} ,'{{X.nombre}}','{{X.descripcion}}',{{X.precio}},{{X.stock}}) {% endcomment %}
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imagenProducto"
                 onclick="imagen({{X.idproducto}})">Img</button>
               <button type="button" class="btn btn-info" data-bs-toggle="modal"
@@ -204,7 +205,7 @@
             </div>
             <div class="col-md-8">
               <textarea class="form-control" id="mod_nombre" name="mod_nombre" placeholder="Nombre del producto"
-                required maxlength="255"></textarea>
+                required></textarea>
             </div>
           </div>
 
@@ -214,7 +215,7 @@
             </div>
             <div class="col-md-8">
               <textarea class="form-control" id="mod_descripcion" name="mod_descripcion" rows="8"
-                placeholder="Descripcion del producto" required maxlength="255"></textarea>
+                placeholder="Descripcion del producto" required ></textarea>
             </div>
           </div>
 
@@ -293,7 +294,8 @@
       }
     });
   }
-  function modificar(id, nombre, descripcion, precio, stock) {
+  {% comment %} function modificar(id, nombre, descripcion, precio, stock) { {% endcomment %}
+  function modificar(id,nombre, descripcion, precio, stock) {
     document.getElementById("mod_codigo").value = id
     document.getElementById("mod_nombre").value = nombre
     document.getElementById("mod_descripcion").value = descripcion

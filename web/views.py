@@ -99,14 +99,24 @@ def agregar_carrito(request,id):
     contexto["total"]=request.session.get('total')
     return render(request,'index.html',contexto)
     
-def index(request):    
-    lista_recuperada=request.session.get('carrito',[])
+def index(request):
     contexto={}
+    if "carrito" in request.session:
+        lista= request.session.get("carrito",[])
+        total= request.session.get("total")
+    else:
+        lista= []
+        total={"cantidad":0,"total":0}
+    
+    contexto["carrito"]=lista
+    contexto["total"]=total
+         
+    # lista_recuperada=request.session.get('carrito',[])
     categorias=Categoria.objects.all()
     contexto["categorias"]=categorias
     productos= Productos.objects.all()
     contexto["productos"]=productos
-    contexto["carrito"]=lista_recuperada
+    # contexto["carrito"]=lista_recuperada
     if request.method == 'POST':
         cate = request.POST.get("categoria")
         if request.POST.get("buscar")!="":

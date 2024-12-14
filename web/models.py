@@ -87,8 +87,8 @@ class Perfil(models.Model):
 
 class Productos(models.Model):
     idproducto = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=60)
-    descripcion = models.CharField(max_length=100)
+    nombre = models.TextField()
+    descripcion = models.TextField()
     precio = models.IntegerField()
     stock = models.IntegerField()
     foto = models.ImageField(upload_to='fotos',default='fotos/no-disponible.jpg')
