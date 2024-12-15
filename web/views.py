@@ -131,6 +131,29 @@ def index(request):
     contexto["productos"]=productos
     return render(request,'index.html',contexto)
 
+def filtro(request,id):
+    contexto={}
+    if "carrito" in request.session:
+        lista= request.session.get("carrito",[])
+        total= request.session.get("total")
+    else:
+        lista= []
+        total={"cantidad":0,"total":0}
+    
+    contexto["carrito"]=lista
+    contexto["total"]=total
+         
+    # lista_recuperada=request.session.get('carrito',[])
+    categorias=Categoria.objects.all()
+    contexto["categorias"]=categorias
+    productos= Productos.objects.all()
+    contexto["productos"]=productos
+    # contexto["carrito"]=lista_recuperada
+    if id != '':
+        productos = Productos.objects.filter(idcategoria=id)            
+    contexto["productos"]=productos
+    return render(request,'index.html',contexto)
+
 def login(request):
     contexto={}
     categorias=Categoria.objects.all()
@@ -387,3 +410,13 @@ def producto(request,id):
 
 def realizar_pedido(request):
     return render(request,"pedido.html")
+
+def datos_pedido(request):
+    contexto={}
+    if "carrito" in request.session:
+        lista= request.session.get("carrito",[])
+        total= request.session.get("total")
+        
+    contexto["carrito"]=lista
+    contexto["total"]=total    
+    return render(request,"datos_pedido.html",contexto)

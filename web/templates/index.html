@@ -138,7 +138,7 @@
             <!-- SEARCH BAR -->
             <div class="col-md-6">
               <div class="header-search">
-                <form action="" method="post">
+                <form action="{% url 'IND' %}" method="post">
                   {% csrf_token %}
                   <select class="input-select" name="categoria">
                     <option value="Todo">Todo</option>
@@ -274,7 +274,7 @@
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#">Hot Ventas</a></li>
             {% for cate in categorias %}
-            <li><a href="#">{{cate.descripcion}}</a></li>
+            <li><a href="{% url 'FILTRO' cate.idcategoria %}">{{cate.descripcion}}</a></li>
             {% endfor %}
           </ul>
           <!-- /NAV -->

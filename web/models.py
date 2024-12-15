@@ -48,7 +48,7 @@ class Envios(models.Model):
 
 
 class EstadoEnvio(models.Model):
-    idestado = models.BooleanField(primary_key=True)
+    idestado = models.IntegerField(primary_key=True)
     descripcion = models.CharField(max_length=45)
 
     # class Meta:
@@ -68,7 +68,7 @@ class Galeria(models.Model):
 
 
 class MetodoPago(models.Model):
-    idmetodopago = models.BooleanField(primary_key=True)
+    idmetodopago = models.IntegerField(primary_key=True)
     descripcion = models.CharField(max_length=50)
 
     # class Meta:

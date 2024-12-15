@@ -11,6 +11,7 @@ urlpatterns = [
     path('grabar_producto', grabar_producto,name='GRA_PRO'),
     path('modificar_producto', modificar_producto,name='MOD_PROD'),
     path('insertar_galeria', insertar_galeria,name='IG'),
+    path('filtro/<id>/',filtro,name="FILTRO"),
     
     path('ver_producto/<id>/', producto,name='V_PRO'),
     path('eliminar_producto/<id>/', eliminar_producto,name='ELI_PRO'),
